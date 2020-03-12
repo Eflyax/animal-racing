@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A racing game built with Paper.js</title>
+
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #FBC77B;
+            height: 100%;
+            width: 100%;
+            font-family: 'Candal';
+            overflow-x: hidden;
+        }
+
+        div#track_container {
+            width: 900px;
+            height: 420px;
+            margin: auto;
+            margin-top: 100px;
+            position: relative;
+        }
+
+        div#track_car {
+            width: 25px;
+            height: 26px;
+            position: absolute;
+        }
+
+        svg#track {
+            width: 900px;
+            height: 420px;
+            position: absolute;
+            visibility: hidden;
+        }
+
+        canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 900px;
+            height: 420px;
+            z-index: 1;
+        }
+
+        div#track_car div.image {
+            width: 25px;
+            height: 26px;
+            background-image: url('images/car.png');
+            background-size: 100%;
+            top: -13px;
+            left: -12px;
+            position: absolute;
+            z-index: 5;
+        }
+
+        div.ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+        }
+
+
+        div.ui a.start {
+            display: block;
+            position: absolute;
+            background-color: #EB4333;
+            color: #fff;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 30px;
+            box-shadow: 5px 4px 0px 0px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            border-radius: 15px;
+            top: 20px;
+            left: 50%;
+            text-transform: uppercase;
+            width: 190px;
+            margin-left: -95px;
+            text-decoration: none;
+            visibility: hidden;
+        }
+
+        div.ui a.start:active {
+            margin-top: 1px;
+        }
+
+        div.ui div.ui-item {
+            width: 135px;
+            margin: auto;
+            text-align: left;
+            border-radius: 15px;
+            height: 30px;
+            line-height: 30px;
+            background: #fff;
+            position: absolute;
+            left: -200px;
+            padding-left: 30px;
+            box-shadow: 5px 4px 0px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        div.ui div.ui-item.best-score {
+            left: auto;
+            right: -200px;
+            top: 20px;
+            width: 140px;
+            font-size: 10px;
+            height: 20px;
+            line-height: 20px;
+        }
+
+        div.ui div.ui-item.best-score span {
+            font-size: 10px;
+            color: #EB4333;
+        }
+
+        div.ui div.ui-item.score {
+            top: 20px;
+            font-size: 14px;
+            width: 160px;
+        }
+
+        div.ui div.ui-item.score span {
+            font-size: 16px;
+            color: #EB4333;
+        }
+
+        div.ui div.ui-item.lifes {
+            top: 60px;
+        }
+
+        div.ui div.ui-item.lifes ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            display: inline-block;
+            color: #EB4333;
+        }
+
+        div.ui div.ui-item.lifes ul li {
+            display: inline-block;
+            font-size: 12px;
+        }
+
+
+    </style>
+
+
+</head>
+
+
+<body>
+
+<svg version="1.1" id="track" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 900 420"
+     enable-background="new 0 0 900 420" xml:space="preserve">
+    <path id="circuit" fill="none" stroke="#000000" stroke-width="7" d="
+        M458.3,410.4c51.4,0.3,206.2,3.1,310.1-1.4c103.8-4.5,109.6-82.6,109.4-119.6c-0.2-37-24.8-117.4-105.2-114.7
+        c-81.5,2.7-202-1.9-242.4-1.1c-40.5,0.8-138,1.5-188.5,2.5c-49,1-78.3,49.1-77.3,116.8c1.1,66.6,38.6,101.6,81.2,101.8
+        c45.6,0.2,298.6,0.6,337.8-0.2c40.3-0.9,62.1-21.1,61.2-47c-1-25.8-13.1-51.3-60.7-50.4c-18.3,0.4-82.9,2.1-117,1.2
+        c-35.2-0.9-141.3,7.3-179.6-10.6c-38.5-18.1-64.7-57.3-73.3-66.6c-9.2-9.9-68.8-78.8-99.7-112C184.1,77,148.1,10.5,137.8,8.6
+        c-11.3-2-71.3,10.3-91,16.3C28.1,30.7,20,36,22.8,60.8c3.1,27.3,37.4,45.9,48.9,82.6c12,38.1,18.6,170.3,47.6,215
+        c29.4,45.4,74.1,49.1,107.7,50S406.9,410.1,458.3,410.4z"></path>
+    </svg>
+
+<div class="ui">
+    <a class="start" href="https://ilpes.it/a-racing-game-built-with-paper-js/demo#">Start Racing</a>
+    <div class="ui-item lifes" style="left: -20px;">
+        <ul>
+            <li><i class="fa fa-heart"></i></li>
+            <li><i class="fa fa-heart"></i></li>
+            <li><i class="fa fa-heart"></i></li>
+            <li><i class="fa fa-heart"></i></li>
+            <li><i class="fa fa-heart"></i></li>
+        </ul>
+    </div>
+
+    <div class="ui-item score" style="left: -20px;">
+        SCORE: <span class="points">0</span>
+    </div>
+
+    <div class="ui-item best-score">
+        BEST: <span class="best-points">0</span>
+    </div>
+</div>
+
+<div id="track_container">
+    <div id="track_car">
+        <div class="image" style="transform: translate3d(458.3px, 410.4px, 0px) rotate(0deg);"></div>
+    </div>
+    <canvas id="track_canvas" width="1800" height="840"
+            style="-webkit-user-drag: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 900px; height: 420px;"></canvas>
+</div>
+
+<script src="js/paper-full.min.js"></script>
+<script src="js/TweenMax.min.js"></script>
+<script src="js/racer.js"></script>
+
+<script>
+  Racer.Game.init();
+</script>
+
+
+<link href="css/bottom-bar.css" rel="stylesheet" type="text/css">
+<footer>
+</footer>
+
+
+<script src="js/underscore.min.js"></script>
+<script>
+  var shares = document.querySelectorAll("footer a.share");
+  _.each(shares, function ($s) {
+
+    $s.addEventListener("click", function (e) {
+      var $s = e.currentTarget;
+      var url = $s.href;
+      var width = 575;
+      var height = 400;
+      var left = (window.innerWidth - width) / 2;
+      var top = (window.innerHeight - height) / 2;
+      var opts = 'status=1,width=' + width + ',height=' + height + ',top=' + top + ',left=' + left;
+      window.open(url, 'share', opts);
+      e.preventDefault();
+    });
+
+  });
+</script>
+
+
+</body>
+</html>
