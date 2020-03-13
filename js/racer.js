@@ -192,10 +192,12 @@ Racer.Track = function () {
 
     var p = layer.importSVG(svg, function (path, svg) {
       path.strokeColor = '#d9caec';
+      path.fillColor = '#FFFFFF';
       path.strokeWidth = 12;
       _path = path.children['circuit'];
     });
 
+    // var pathData = 'M 80 110.066 C -97.0077 169.0685 74.1149 -100.7186 79.8532 42.4477 A 190.3926 190.3926 0 0 1 80 50.066';
     // var pathData = 'M98.36,214.208l2.186-1.093V210.2l-3.378,0.117l1.174,4.137L98.36,214.208z';
     // var path = new Path(pathData);
     // path.strokeColor = 'black';
