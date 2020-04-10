@@ -1,61 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>A racing game built with Paper.js</title>
 
-    <link href="css/style.css" rel="stylesheet" type="text/css">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A racing game built with Paper.js</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css">
 
 <body>
-<div id="area">
-</div>
 </body>
 
 <script src="https://d3js.org/d3.v3.js"></script>
+<script src="/js/mapDevice.js"></script>
 <script>
 
-  var margin = {top: 10, right: 40, bottom: 30, left: 30},
-    width = 450 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
-
-  var sVg = d3.select("#area")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  var device1 = new MapDevice('iPhone', 10, 8);
+  var device2 = new MapDevice('iPad', 50, 70);
 
 
-  var lineData = [
-    {"x": 5, "y": 0},
-    {"x": 5, "y": 100},
-    {"x": 100, "y": 100},
-    {"x": 20, "y": 70},
-    {"x": 80, "y": 30},
-    // {"x": 100, "y": 60}
-  ];
+  // var margin = { top: 0, right: 0, bottom: 0, left: 0 },
+  //   width = 500 - margin.left - margin.right,
+  //   height = 500 - margin.top - margin.bottom;
+
+  // var lineData = [
+  //   { "x": 15, "y": 10 },
+  //   { "x": 15, "y": 110 },
+  //   { "x": 100, "y": 110 },
+  //   { "x": 30, "y": 80 },
+  //   { "x": 90, "y": 40 },
+  //   { "x": 110, "y": 70 }
+  // ];
+
+  // var lineFunction = d3.svg.line()
+  //   .x(function (d) {
+  //     return d.x;
+  //   })
+  //   .y(function (d) {
+  //     return d.y;
+  //   })
+  //   .interpolate("cardinal-closed");
 
 
-  var lineFunction = d3.svg.line()
-    .x(function (d) {
-      return d.x;
-    })
-    .y(function (d) {
-      return d.y;
-    })
-    .interpolate("cardinal-closed");
+  // var svgContainer = d3.select("body").append("svg")
+  //   .attr("width", 200)
+  //   .attr("height", 200);
 
-
-  var svgContainer = d3.select("body").append("svg")
-    .attr("width", 200)
-    .attr("height", 200);
-
-  var lineGraph = svgContainer.append("path")
-    .attr("d", lineFunction(lineData))
-    .attr("stroke", "blue")
-    .attr("stroke-width", 2)
-    .attr("fill", "none");
-
+  // var lineGraph = svgContainer.append("path")
+  //   .attr("d", lineFunction(lineData))
+  //   .attr("stroke", "blue")
+  //   .attr("stroke-width", 2)
+  //   .attr("fill", "none");
 </script>
+
 </html>
