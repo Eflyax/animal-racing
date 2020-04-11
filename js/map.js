@@ -36,7 +36,7 @@ var Map = (function () {
             // .attr("width", width)
             // .attr("height", height)
             .attr('style', 'border: 1px solid purple')
-            .attr('viewBox', '0 0 ' + _devices[0].getWidth(coeficient) + ' '+_devices[0].getHeight(coeficient));
+            .attr('viewBox', _devices[0].getWidth(coeficient) + ' 0 ' + _devices[1].getWidth(coeficient) + ' '+_devices[1].getHeight(coeficient));
 
         var lineData = [
             { "x": coeficient * 2, "y": coeficient * 2 },
