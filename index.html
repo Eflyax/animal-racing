@@ -6,9 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>A racing game built with Paper.js</title>
   <link href="css/style.css" rel="stylesheet" type="text/css">
+  <style>
+    html,
+    body {
+      height: 120%;
+      margin: -5px -5px 0 -5px;
+    }
+  </style>
 
-<body style="text-align:center;">
-</body>
+<body style="text-align:center;"></body>
 
 <script src="https://d3js.org/d3.v3.js"></script>
 <script src="/js/map.js"></script>
@@ -16,7 +22,7 @@
 <script>
 
   var map = new Map();
-  
+
   var device1 = new MapDevice('iPhone', 8.4, 15);
   var device2 = new MapDevice('iPad', 22, 29.4);
 

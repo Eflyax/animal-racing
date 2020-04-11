@@ -16,9 +16,6 @@ var Map = (function () {
                 totalHeight = device.getHeight();
             }
         });
-        console.log(totalWidth + ' x ' + totalHeight);
-
-
 
         var margin = { top: 0, right: 0, bottom: 0, left: 0 };
         var width = ((totalWidth - margin.left - margin.right) * coeficient);
@@ -34,27 +31,29 @@ var Map = (function () {
             .interpolate("cardinal-closed");
 
         svgContainer = d3.select("body").append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .attr('style', 'border: 1px solid purple');
+            .attr("width", '100%')
+            .attr("height", '100%')
+            // .attr("width", width)
+            // .attr("height", height)
+            .attr('style', 'border: 1px solid purple')
+            .attr('viewBox', '0 0 ' + _devices[0].getWidth(coeficient) + ' '+_devices[0].getHeight(coeficient));
 
         var lineData = [
-            { "x": 15, "y": 10 },
-            { "x": 15, "y": 110 },
-            { "x": 100, "y": 110 },
-            { "x": 30, "y": 80 },
-            { "x": 90, "y": 40 },
-            { "x": 110, "y": 70 },
+            { "x": coeficient * 2, "y": coeficient * 2 },
+            { "x": _devices[1].getWidth(coeficient), "y": 110 },
+            { "x": _devices[1].getWidth(coeficient), "y": _devices[1].getHeight(coeficient) - coeficient },
         ];
+        drawDevices();
+
         svgContainer.append("path")
             .attr("d", lineFunctionAproximateClosed(lineData))
-            .attr("stroke", "blue")
+            .attr("stroke", "black")
             .attr("stroke-width", 3)
             .attr("fill", "none");
-        drawDevices();
     }
 
     function drawDevices() {
+        var colors = ['purple', 'orange']
         var lineBasic = d3.svg.line()
             .x(function (d) {
                 return d.x;
@@ -63,7 +62,7 @@ var Map = (function () {
                 return d.y;
             });
         var shiftX = 0;
-        _devices.forEach(function (item) {
+        _devices.forEach(function (item, index) {
             var lineData2 = [
                 { "x": shiftX, "y": 0 },
                 { "x": shiftX + item.getWidth(coeficient), "y": 0 },
@@ -73,9 +72,9 @@ var Map = (function () {
             ];
             svgContainer.append("path")
                 .attr("d", lineBasic(lineData2))
-                .attr("stroke", "red")
+                .attr("stroke", colors[index])
                 .attr("stroke-width", 3)
-                .attr("fill", "none");
+                .attr("fill", colors[index]);
             shiftX += item.getWidth(coeficient);
         });
     }
