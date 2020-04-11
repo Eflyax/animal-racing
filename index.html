@@ -14,7 +14,16 @@
     }
   </style>
 
-<body style="text-align:center;"></body>
+<body>
+  <div id="track_container">
+    <div id="track_car">
+      <div class="image" style="transform: translate3d(458.3px, 410.4px, 0px) rotate(0deg);"></div>
+    </div>
+    <canvas id="track_canvas"
+      style="-webkit-user-drag: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 900px; height: 420px;"></canvas>
+  </div>
+
+</body>
 
 <script src="https://d3js.org/d3.v3.js"></script>
 <script src="/js/map.js?v=1"></script>
@@ -35,6 +44,15 @@
 
   map.getTrackInfo();
 
+</script>
+
+<script src="js/paper-full.min.js"></script>
+<script src="js/TweenMax.min.js"></script>
+<script src="js/racer.js"></script>
+<script>
+  (function () {
+    Racer.Game.init();
+  });
 </script>
 
 </html>

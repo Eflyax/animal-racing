@@ -79,12 +79,12 @@ Racer.Game = (function () {
 
     addListener();
 
-    TweenMax.to("div.lifes", .6, {ease: Cubic.easeInOut, left: -20, delay: .5});
-    TweenMax.to("div.score", .6, {ease: Cubic.easeInOut, left: -20, delay: .4});
+    TweenMax.to("div.lifes", .6, { ease: Cubic.easeInOut, left: -20, delay: .5 });
+    TweenMax.to("div.score", .6, { ease: Cubic.easeInOut, left: -20, delay: .4 });
     _maxPoints = localStorage.getItem("bestScore") == null ? 0 : localStorage.getItem("bestScore");
     if (_maxPoints > 0) {
       _bestScoreUI.innerHTML = _maxPoints.toString();
-      TweenMax.to("div.best-score", .6, {ease: Cubic.easeInOut, right: -20, delay: .8});
+      TweenMax.to("div.best-score", .6, { ease: Cubic.easeInOut, right: -20, delay: .8 });
     }
   }
 
@@ -93,13 +93,13 @@ Racer.Game = (function () {
       addListener();
       _car.afterCrash(true);
     } else {
-      TweenMax.to("a.start", .3, {ease: Cubic.easeInOut, autoAlpha: 1});
-      TweenMax.to("div.lifes", .4, {ease: Cubic.easeInOut, left: -200});
+      TweenMax.to("a.start", .3, { ease: Cubic.easeInOut, autoAlpha: 1 });
+      TweenMax.to("div.lifes", .4, { ease: Cubic.easeInOut, left: -200 });
       _car.afterCrash(false);
 
       if (_points > _maxPoints) {
         if (_maxPoints == 0)
-          TweenMax.to("div.best-score", .6, {ease: Cubic.easeInOut, right: -20});
+          TweenMax.to("div.best-score", .6, { ease: Cubic.easeInOut, right: -20 });
         _maxPoints = _points;
         _bestScoreUI.innerHTML = _maxPoints.toString();
         localStorage.setItem("bestScore", _maxPoints);
@@ -116,8 +116,8 @@ Racer.Game = (function () {
     addListener();
 
 
-    TweenMax.to("a.start", .1, {ease: Cubic.easeInOut, autoAlpha: 0});
-    TweenMax.to("div.lifes", .6, {ease: Cubic.easeInOut, left: -20});
+    TweenMax.to("a.start", .1, { ease: Cubic.easeInOut, autoAlpha: 0 });
+    TweenMax.to("div.lifes", .6, { ease: Cubic.easeInOut, left: -20 });
   }
 
   function accelerate(e) {
@@ -189,20 +189,12 @@ Racer.Track = function () {
     var svg = document.getElementById('track');
     var layer = new Layer();
 
-
     var p = layer.importSVG(svg, function (path, svg) {
-      path.strokeColor = '#d9caec';
-      path.fillColor = '#FFFFFF';
-      path.strokeWidth = 12;
-      _path = path.children['circuit'];
+      console.log(path);
+      // path.strokeColor = '#ECBB62';
+      // path.strokeWidth = 12;
+      // _path = path.children['circuit'];
     });
-
-    // var pathData = 'M 80 110.066 C -97.0077 169.0685 74.1149 -100.7186 79.8532 42.4477 A 190.3926 190.3926 0 0 1 80 50.066';
-    // var pathData = 'M98.36,214.208l2.186-1.093V210.2l-3.378,0.117l1.174,4.137L98.36,214.208z';
-    // var path = new Path(pathData);
-    // path.strokeColor = 'black';
-    // path.scale(10);
-    // layer.path = path;
 
     paper.view.draw();
   }
@@ -381,7 +373,7 @@ Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
     paper.view.draw();
 
     var score = Math.round(5 * _velocity.length) - 1;
-    var carRunggingEvent = new CustomEvent("CarRunning", {"detail": score});
+    var carRunggingEvent = new CustomEvent("CarRunning", { "detail": score });
     window.dispatchEvent(carRunggingEvent);
 
     _rotation = _velocity.angle;

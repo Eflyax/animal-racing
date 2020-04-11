@@ -47,7 +47,7 @@ var Map = (function () {
             // .attr("height", height)
             .attr('style', 'border: 1px solid purple')
             // .attr('viewBox', _devices[0].getWidth(coeficient) + ' 0 ' + _devices[1].getWidth(coeficient) + ' '+_devices[1].getHeight(coeficient));
-            ;
+            .attr('id', 'track');
 
         var lineData = [];
         var counter = 0;
@@ -118,7 +118,7 @@ var Map = (function () {
             currentWidthPointer -= item.getWidth(coeficient);
         }
 
-        drawDevices();
+        // drawDevices();
         svgContainer.append("path")
             .attr("d", lineFunctionAproximateClosed(lineData))
             // .attr("d", lineBasic(lineData))
