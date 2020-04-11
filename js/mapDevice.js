@@ -6,11 +6,17 @@ var MapDevice = (function (name, width, height) {
     var _height = height;
 
     return {
-        getWidth: function () {
-            return _width;
+        getWidth: function (coeficient) {
+            if (!coeficient || coeficient <= 0) {
+                coeficient = 1;
+            }
+            return coeficient * _width;
         },
-        getHeight: function () {
-            return _height;
+        getHeight: function (coeficient) {
+            if (!coeficient || coeficient <= 0) {
+                coeficient = 1;
+            }
+            return coeficient * _height;
         },
         getName: function () {
             return _name;

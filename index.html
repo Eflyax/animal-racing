@@ -7,49 +7,24 @@
   <title>A racing game built with Paper.js</title>
   <link href="css/style.css" rel="stylesheet" type="text/css">
 
-<body>
+<body style="text-align:center;">
 </body>
 
 <script src="https://d3js.org/d3.v3.js"></script>
+<script src="/js/map.js"></script>
 <script src="/js/mapDevice.js"></script>
 <script>
 
-  var device1 = new MapDevice('iPhone', 10, 8);
-  var device2 = new MapDevice('iPad', 50, 70);
+  var map = new Map();
+  
+  var device1 = new MapDevice('iPhone', 8.4, 15);
+  var device2 = new MapDevice('iPad', 22, 29.4);
 
+  map.addDevice(device1);
+  map.addDevice(device2);
 
-  // var margin = { top: 0, right: 0, bottom: 0, left: 0 },
-  //   width = 500 - margin.left - margin.right,
-  //   height = 500 - margin.top - margin.bottom;
+  map.getTrackInfo();
 
-  // var lineData = [
-  //   { "x": 15, "y": 10 },
-  //   { "x": 15, "y": 110 },
-  //   { "x": 100, "y": 110 },
-  //   { "x": 30, "y": 80 },
-  //   { "x": 90, "y": 40 },
-  //   { "x": 110, "y": 70 }
-  // ];
-
-  // var lineFunction = d3.svg.line()
-  //   .x(function (d) {
-  //     return d.x;
-  //   })
-  //   .y(function (d) {
-  //     return d.y;
-  //   })
-  //   .interpolate("cardinal-closed");
-
-
-  // var svgContainer = d3.select("body").append("svg")
-  //   .attr("width", 200)
-  //   .attr("height", 200);
-
-  // var lineGraph = svgContainer.append("path")
-  //   .attr("d", lineFunction(lineData))
-  //   .attr("stroke", "blue")
-  //   .attr("stroke-width", 2)
-  //   .attr("fill", "none");
 </script>
 
 </html>
