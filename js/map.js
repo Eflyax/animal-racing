@@ -6,6 +6,14 @@ var Map = (function () {
     var coeficient = 20;
     var svgContainer;
 
+    var lineBasic = d3.svg.line()
+        .x(function (d) {
+            return d.x;
+        })
+        .y(function (d) {
+            return d.y;
+        });
+
     function generateTrack() {
 
         var totalWidth = 0;
@@ -36,31 +44,86 @@ var Map = (function () {
             // .attr("width", width)
             // .attr("height", height)
             .attr('style', 'border: 1px solid purple')
-            .attr('viewBox', _devices[0].getWidth(coeficient) + ' 0 ' + _devices[1].getWidth(coeficient) + ' '+_devices[1].getHeight(coeficient));
+            // .attr('viewBox', _devices[0].getWidth(coeficient) + ' 0 ' + _devices[1].getWidth(coeficient) + ' '+_devices[1].getHeight(coeficient));
+            ;
 
-        var lineData = [
-            { "x": coeficient * 2, "y": coeficient * 2 },
-            { "x": _devices[1].getWidth(coeficient), "y": 110 },
-            { "x": _devices[1].getWidth(coeficient), "y": _devices[1].getHeight(coeficient) - coeficient },
-        ];
+        var lineData = [];
+        var counter = 0;
+        var startPoint;
+        var currentWidthPointer = 0;
+
+        // left => right
+        _devices.forEach(function (item, index) {
+            var itemWidthCm = item.getWidth(coeficient);
+            var itemHeightCm = item.getHeight(coeficient);
+            var pointFirst = { // left top
+                "x": currentWidthPointer + randomNumber(0, itemWidthCm / 3) + coeficient,
+                "y": (coeficient * 2) + randomNumber(0, itemHeightCm / 4)
+            };
+            lineData.push(pointFirst);
+            if (counter === 0) {
+                startPoint = pointFirst;
+            }
+            var pointSecond = { // right top
+                "x": currentWidthPointer + (itemWidthCm / 2) + randomNumber(0, itemWidthCm / 4),
+                "y": coeficient + randomNumber(1, itemHeightCm / 2)
+            };
+            lineData.push(pointSecond);
+            counter++;
+            currentWidthPointer += item.getWidth(coeficient);
+        });
+
+        // right => left
+        for (index = _devices.length - 1; index > 0; index--) {
+            item = _devices[index];
+            var itemWidthCm = item.getWidth(coeficient);
+            var itemHeightCm = item.getHeight(coeficient);
+
+            var pointFirst = { // right bottom
+                "x": currentWidthPointer - randomNumber(0, itemWidthCm / 3) - coeficient,
+                "y": itemHeightCm - randomNumber(0, itemHeightCm / 3) - coeficient,
+            };
+            lineData.push(pointFirst);
+
+            var pointSecond = { // left bottom
+                "x": currentWidthPointer - (itemWidthCm / 2) - randomNumber(0, itemWidthCm / 4),
+                "y": itemHeightCm - randomNumber(0, itemHeightCm / 3) - coeficient,
+            };
+            lineData.push(pointSecond);
+
+            if (itemHeightCm > 10 && itemWidthCm > 10) { // todo - ANT code
+                lineData.push({
+                    'x': currentWidthPointer - itemWidthCm / 2 + randomNumber(-(itemWidthCm / 2), itemWidthCm / 2),
+                    'y': itemHeightCm / 2 + randomNumber(-(itemHeightCm / 4), itemHeightCm / 4),
+                });
+            }
+
+            if (index - 1 >= 0) {
+                var itemOnLeft = _devices[index - 1];
+                var point = {
+                    "x": currentWidthPointer - itemWidthCm + randomNumber(0, coeficient),
+                    "y": itemOnLeft.getHeight(coeficient) - randomNumber(coeficient, coeficient * 2),
+                };
+                lineData.push(point);
+            }
+        }
+
         drawDevices();
-
         svgContainer.append("path")
             .attr("d", lineFunctionAproximateClosed(lineData))
+            // .attr("d", lineBasic(lineData))
             .attr("stroke", "black")
             .attr("stroke-width", 3)
             .attr("fill", "none");
     }
 
+    function randomNumber(from, to) {
+        return Math.floor((Math.random() * to) + from);
+    }
+
     function drawDevices() {
         var colors = ['purple', 'orange']
-        var lineBasic = d3.svg.line()
-            .x(function (d) {
-                return d.x;
-            })
-            .y(function (d) {
-                return d.y;
-            });
+
         var shiftX = 0;
         _devices.forEach(function (item, index) {
             var lineData2 = [
