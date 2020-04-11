@@ -5,6 +5,8 @@ var Map = (function () {
     var _devices = [];
     var coeficient = 20;
     var svgContainer;
+    var colors = ['purple', 'orange', 'cyan', 'brown', 'pink'];
+
 
     var lineBasic = d3.svg.line()
         .x(function (d) {
@@ -78,7 +80,6 @@ var Map = (function () {
             item = _devices[index];
             var itemWidthCm = item.getWidth(coeficient);
             var itemHeightCm = item.getHeight(coeficient);
-
             var pointFirst = { // right bottom
                 "x": currentWidthPointer - randomNumber(0, itemWidthCm / 3) - coeficient,
                 "y": itemHeightCm - randomNumber(0, itemHeightCm / 3) - coeficient,
@@ -91,7 +92,7 @@ var Map = (function () {
             };
             lineData.push(pointSecond);
 
-            if (itemHeightCm > 10 && itemWidthCm > 10) { // todo - ANT code
+            if (itemHeightCm > 10 && itemWidthCm > 10 && randomNumber(1, 2) == 1) { // todo - ANT code
                 lineData.push({
                     'x': currentWidthPointer - itemWidthCm / 2 + randomNumber(-(itemWidthCm / 2), itemWidthCm / 2),
                     'y': itemHeightCm / 2 + randomNumber(-(itemHeightCm / 4), itemHeightCm / 4),
@@ -99,13 +100,22 @@ var Map = (function () {
             }
 
             if (index - 1 >= 0) {
-                var itemOnLeft = _devices[index - 1];
-                var point = {
-                    "x": currentWidthPointer - itemWidthCm + randomNumber(0, coeficient),
-                    "y": itemOnLeft.getHeight(coeficient) - randomNumber(coeficient, coeficient * 2),
-                };
+                var itemOnLeftSide = _devices[index - 1];
+
+                if (itemOnLeftSide.getHeight() > item.getHeight()) {
+                    var point = {
+                        "x": currentWidthPointer - itemWidthCm + randomNumber(0, coeficient),
+                        "y": item.getHeight(coeficient) - randomNumber(coeficient * 2, item.getHeight(coeficient) / 4),
+                    };
+                } else {
+                    var point = {
+                        "x": currentWidthPointer - itemWidthCm + randomNumber(0, coeficient),
+                        "y": itemOnLeftSide.getHeight(coeficient) - randomNumber(coeficient, coeficient * 2),
+                    };
+                }
                 lineData.push(point);
             }
+            currentWidthPointer -= item.getWidth(coeficient);
         }
 
         drawDevices();
@@ -113,7 +123,7 @@ var Map = (function () {
             .attr("d", lineFunctionAproximateClosed(lineData))
             // .attr("d", lineBasic(lineData))
             .attr("stroke", "black")
-            .attr("stroke-width", 3)
+            .attr("stroke-width", 2)
             .attr("fill", "none");
     }
 
@@ -122,7 +132,6 @@ var Map = (function () {
     }
 
     function drawDevices() {
-        var colors = ['purple', 'orange']
 
         var shiftX = 0;
         _devices.forEach(function (item, index) {
