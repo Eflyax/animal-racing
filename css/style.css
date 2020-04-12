@@ -1,8 +1,149 @@
-/* latin */
-@font-face {
+* {
+  box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: cyan;
+  height: 100%;
+  width: 100%;
   font-family: 'Candal';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Candal'), url(https://fonts.gstatic.com/s/candal/v9/XoHn2YH6T7-t_8c9BhQIldUhlg.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  overflow-x: hidden;
+}
+
+div#track_container {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  position: relative;
+}
+
+div#track_car {
+  width: 25px;
+  height: 26px;
+  position: absolute;
+}
+
+svg#track {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  visibility: hidden;
+}
+
+canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+div#track_car div.image {
+  width: 25px;
+  height: 26px;
+  background-image: url('/images/car.png');
+  background-size: 100%;
+  top: -13px;
+  left: -12px;
+  position: absolute;
+  z-index: 5;
+}
+
+div.ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  z-index: 10;
+}
+
+div.ui a.start {
+  display: block;
+  position: absolute;
+  background-color: black;
+  color: #fff;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 30px;
+  box-shadow: 5px 4px 0px 0px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  border-radius: 15px;
+  top: 20px;
+  left: 50%;
+  text-transform: uppercase;
+  width: 190px;
+  margin-left: -95px;
+  text-decoration: none;
+  visibility: hidden;
+}
+
+div.ui a.start:active {
+  margin-top: 1px;
+}
+
+div.ui div.ui-item {
+  width: 135px;
+  margin: auto;
+  text-align: left;
+  border-radius: 15px;
+  height: 30px;
+  line-height: 30px;
+  background: #fff;
+  position: absolute;
+  left: -200px;
+  padding-left: 30px;
+  box-shadow: 5px 4px 0px 0px rgba(0, 0, 0, 0.1);
+}
+
+div.ui div.ui-item.best-score {
+  left: auto;
+  right: -200px;
+  top: 20px;
+  width: 140px;
+  font-size: 10px;
+  height: 20px;
+  line-height: 20px;
+}
+
+div.ui div.ui-item.best-score span {
+  font-size: 10px;
+  color: #FFFFFF;
+}
+
+div.ui div.ui-item.score {
+  top: 20px;
+  font-size: 14px;
+  width: 160px;
+}
+
+div.ui div.ui-item.score span {
+  font-size: 16px;
+  color: #000000;
+}
+
+div.ui div.ui-item.lifes {
+  top: 60px;
+}
+
+div.ui div.ui-item.lifes ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: inline-block;
+  color: red;
+}
+
+div.ui div.ui-item.lifes ul li {
+  display: inline-block;
+  font-size: 12px;
 }

@@ -56,9 +56,9 @@ Racer.Game = (function () {
 
   var _scoreUI, _hearts, _restartUI;
 
-  
+
   function initialize() {
-  
+
     paper.install(window);
     paper.setup('track_canvas');
 
@@ -116,14 +116,11 @@ Racer.Game = (function () {
     updateHearts();
     addListener();
 
-
     TweenMax.to("a.start", .1, { ease: Cubic.easeInOut, autoAlpha: 0 });
     TweenMax.to("div.lifes", .6, { ease: Cubic.easeInOut, left: -20 });
   }
 
   function accelerate(e) {
-
-    
     _car.accelerate();
     e.preventDefault();
   }
@@ -150,8 +147,6 @@ Racer.Game = (function () {
   }
 
   function onCarRunning(e) {
-    // _points += e.detail;
-    // _scoreUI.innerHTML = _points;
   }
 
   function onCarCrashed(e) {
@@ -161,10 +156,10 @@ Racer.Game = (function () {
   }
 
   function updateHearts() {
-    for (var i = 0; i < _hearts.length; i++) {
-      if (i < _life) _hearts[i].style.opacity = 1;
-      else _hearts[i].style.opacity = .2;
-    }
+    // for (var i = 0; i < _hearts.length; i++) {
+      // if (i < _life) _hearts[i].style.opacity = 1;
+      // else _hearts[i].style.opacity = .2;
+    // }
   }
 
 
@@ -185,18 +180,14 @@ Racer.Track = function () {
   var _canvas, _context, _path;
 
   function initialize() {
-
     _canvas = document.getElementById('track_canvas');
-
     _context = _canvas.getContext('2d');
-
     var svg = document.getElementById('track');
-    console.log(svg.width);    
     var layer = new Layer();
 
     var p = layer.importSVG(svg, function (path, svg) {
       path.strokeColor = '#ECBB62';
-      path.strokeWidth = 12;
+      path.strokeWidth = 30;
       _path = path;
       _path = path.children['circuit'];
     });
@@ -231,7 +222,6 @@ Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
 
     _rotationExit = 0;
     _elapsedExit = 0;
-
     _rotation = 0;
     _elapsed = 0;
     _velocity = new Point(0, 0);
@@ -348,7 +338,6 @@ Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
     var normalAtPosition = _path.getNormalAt(offset).multiply(1000 * direction);
     var normalAtPoint = _path.getNormalAt(offset_prev).multiply(1000 * direction);
 
-
     var l1 = Racer.Utils.drawLine(point, point.add(normalAtPosition), null, 1);
     var l2 = Racer.Utils.drawLine(_path.getPointAt(offset_prev), _path.getPointAt(offset_prev).add(normalAtPoint), '#2895FF', 1);
 
@@ -367,7 +356,7 @@ Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
         _throttle = 0;
         _in = false;
 
-        var carCrashedEvent = new CustomEvent("CarCrashed");
+        var carCrashedEvent = new CustomEvent('CarCrashed');
         window.dispatchEvent(carCrashedEvent);
       }
     }
@@ -378,7 +367,7 @@ Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
     paper.view.draw();
 
     var score = Math.round(5 * _velocity.length) - 1;
-    var carRunggingEvent = new CustomEvent("CarRunning", { "detail": score });
+    var carRunggingEvent = new CustomEvent('CarRunning', { 'detail': score });
     window.dispatchEvent(carRunggingEvent);
 
     _rotation = _velocity.angle;

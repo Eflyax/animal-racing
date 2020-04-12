@@ -6,7 +6,7 @@ var Map = (function () {
     var coeficient = 20;
     var svgContainer;
     var colors = ['purple', 'orange', 'cyan', 'brown', 'pink'];
-
+    var currentDevice = null;
 
     var lineBasic = d3.svg.line()
         .x(function (d) {
@@ -18,6 +18,8 @@ var Map = (function () {
 
     function generateTrack() {
 
+        // alert(Cookies.get('device'));
+
         var totalWidth = 0;
         var totalHeight = 0;
         _devices.forEach(device => {
@@ -25,11 +27,15 @@ var Map = (function () {
             if (device.getHeight() > totalHeight) {
                 totalHeight = device.getHeight();
             }
+            if (Cookies.get('device') == device.getName()) {
+                currentDevice = device;
+            }
         });
 
         var margin = { top: 0, right: 0, bottom: 0, left: 0 };
         var width = ((totalWidth - margin.left - margin.right) * coeficient);
         var height = ((totalHeight - margin.top - margin.bottom) * coeficient);
+
 
         var lineFunctionAproximateClosed = d3.svg.line()
             .x(function (d) {
@@ -40,19 +46,29 @@ var Map = (function () {
             })
             .interpolate("cardinal-closed");
 
+        if (Cookies.get('device') == 'iPhone') {
+            var viewport = '0 0 ' + _devices[0].getWidth(coeficient) + ' ' + _devices[0].getHeight(coeficient);
+        } else {
+            var viewport =
+                _devices[0].getWidth(coeficient)
+                + ' 0 '
+                + _devices[1].getWidth(coeficient)
+                + ' '
+                + _devices[1].getHeight(coeficient);
+        }
+
         svgContainer = d3.select("body").append("svg")
-            // .attr("width", '100%')
-            // .attr("height", '100%')
-            // .attr("width", width)
-            // .attr("height", height)
+            .attr("width", currentDevice.getWidthPixels() + 'px')
+            .attr("height", currentDevice.getHeightPixels() + 'px')
             .attr('style', 'border: 1px solid purple')
-            // .attr('viewBox', _devices[0].getWidth(coeficient) + ' 0 ' + _devices[1].getWidth(coeficient) + ' '+_devices[1].getHeight(coeficient));
+            .attr('viewBox', viewport)
             .attr('id', 'track');
 
         var lineData = [];
         var counter = 0;
         var startPoint;
         var currentWidthPointer = 0;
+
 
         // left => right
         _devices.forEach(function (item, index) {
@@ -74,6 +90,7 @@ var Map = (function () {
             counter++;
             currentWidthPointer += item.getWidth(coeficient);
         });
+
 
         // right => left
         for (index = _devices.length - 1; index > 0; index--) {
@@ -118,9 +135,18 @@ var Map = (function () {
             currentWidthPointer -= item.getWidth(coeficient);
         }
 
+        lineDataStatic = [];
+        lineDataStatic.push({ 'x': 75, 'y': 64 });
+        lineDataStatic.push({ 'x': 86, 'y': 51 });
+        lineDataStatic.push({ 'x': 245, 'y': 122 });
+        lineDataStatic.push({ 'x': 496, 'y': 64 });
+        lineDataStatic.push({ 'x': 457, 'y': 544 });
+        lineDataStatic.push({ 'x': 356, 'y': 479 });
+        lineDataStatic.push({ 'x': 184, 'y': 244 });
+
         // drawDevices();
         svgContainer.append("path")
-            .attr("d", lineFunctionAproximateClosed(lineData))
+            .attr("d", lineFunctionAproximateClosed(lineDataStatic))
             // .attr("d", lineBasic(lineData))
             .attr("stroke", "black")
             .attr("stroke-width", 8)

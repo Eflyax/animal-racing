@@ -4,212 +4,75 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Racer</title>
+  <link href="css/style.css?v=3" rel="stylesheet" type="text/css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>A racing game built with Paper.js</title>
-  <link href="css/style.css" rel="stylesheet" type="text/css">
-  <style>
-    html,
-    body {
-      height: 120%;
-      margin: -5px -5px 0 -5px;
-    }
-  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>A racing game built with Paper.js</title>
-
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-
-    <style>
-      * {
-        box-sizing: border-box;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      body {
-        margin: 0;
-        padding: 0;
-        background-color:cyan;
-        height: 100%;
-        width: 100%;
-        font-family: 'Candal';
-        overflow-x: hidden;
-      }
-
-      div#track_container {
-        width: 900px;
-        height: 420px;
-        margin: auto;
-        margin-top: 100px;
-        position: relative;
-      }
-
-      div#track_car {
-        width: 25px;
-        height: 26px;
-        position: absolute;
-      }
-
-      svg#track {
-        width: 900px;
-        height: 420px;
-        position: absolute;
-        visibility: hidden;
-      }
-
-      canvas {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 900px;
-        height: 420px;
-        z-index: 1;
-      }
-
-      div#track_car div.image {
-        width: 25px;
-        height: 26px;
-        background-image: url('images/car.png');
-        background-size: 100%;
-        top: -13px;
-        left: -12px;
-        position: absolute;
-        z-index: 5;
-      }
-
-      div.ui {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100px;
-        z-index: 10;
-      }
-
-
-      div.ui a.start {
-        display: block;
-        position: absolute;
-        background-color: black;
-        color: #fff;
-        height: 30px;
-        line-height: 30px;
-        padding: 0 30px;
-        box-shadow: 5px 4px 0px 0px rgba(0, 0, 0, 0.1);
-        z-index: 10;
-        border-radius: 15px;
-        top: 20px;
-        left: 50%;
-        text-transform: uppercase;
-        width: 190px;
-        margin-left: -95px;
-        text-decoration: none;
-        visibility: hidden;
-      }
-
-      div.ui a.start:active {
-        margin-top: 1px;
-      }
-
-      div.ui div.ui-item {
-        width: 135px;
-        margin: auto;
-        text-align: left;
-        border-radius: 15px;
-        height: 30px;
-        line-height: 30px;
-        background: #fff;
-        position: absolute;
-        left: -200px;
-        padding-left: 30px;
-        box-shadow: 5px 4px 0px 0px rgba(0, 0, 0, 0.1);
-      }
-
-      div.ui div.ui-item.best-score {
-        left: auto;
-        right: -200px;
-        top: 20px;
-        width: 140px;
-        font-size: 10px;
-        height: 20px;
-        line-height: 20px;
-      }
-
-      div.ui div.ui-item.best-score span {
-        font-size: 10px;
-        color: #FFFFFF;
-      }
-
-      div.ui div.ui-item.score {
-        top: 20px;
-        font-size: 14px;
-        width: 160px;
-      }
-
-      div.ui div.ui-item.score span {
-        font-size: 16px;
-        color: #000000;
-      }
-
-      div.ui div.ui-item.lifes {
-        top: 60px;
-      }
-
-      div.ui div.ui-item.lifes ul {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-        display: inline-block;
-        color: red;
-      }
-
-      div.ui div.ui-item.lifes ul li {
-        display: inline-block;
-        font-size: 12px;
-      }
-    </style>
-  </head>
+</head>
 
 <body>
+  <div id="track_svg"></div>
+
   <div id="track_container">
     <div id="track_car">
       <div class="image" style="transform: translate3d(458.3px, 410.4px, 0px) rotate(0deg);"></div>
     </div>
-    <canvas id="track_canvas" width="1800" height="840"
-      style="-webkit-user-drag: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 900px; height: 420px;"></canvas>
+    <canvas id="track_canvas" style="-webkit-user-drag: none; user-select: none;
+       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+    </canvas>
   </div>
-
 </body>
 
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 <script src="js/paper-full.min.js"></script>
 <script src="js/TweenMax.min.js"></script>
 <script src="js/racer.js"></script>
 
 <script src="https://d3js.org/d3.v3.js"></script>
-<script src="/js/map.js?v=1"></script>
-<script src="/js/mapDevice.js"></script>
+<script src="/js/map.js?v=W"></script>
+<script src="/js/mapDevice.js?v=wd"></script>
 <script>
+  
+  window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
+    alert("Error occured: " + errorMsg+ ' line: '+lineNumber);//or any message
+    return false;
+  }
+  
+  $(document).ready(function () {
+    
+    // Cookies.set('device', 'iPad');
 
-  (function () {
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    
+    $('#track_canvas').css('height', h + 'px'); // not based on real track
+    $('#track_canvas').css('width', w + 'px');
+    
     var map = new Map();
-    var device1 = new MapDevice('iPhone', 8.4, 15);
-    var device2 = new MapDevice('iPad', 22, 29.4);
-    var device3 = new MapDevice('iPhone 10', 10, 19.6);
-    var device4 = new MapDevice('Android', 12, 19);
+    
+    var device1 = new MapDevice('iPhone', 8.4, 15, 320, 452);
+    var device2 = new MapDevice('iPad', 22, 29.4, 834, 1003);
+    
+    
+    
+    // var device3 = new MapDevice('iPhone 10', 10, 19.6);
+    // var device4 = new MapDevice('Android', 12, 19);
     map.addDevice(device1);
     map.addDevice(device2);
-    map.addDevice(device3);
-    map.addDevice(device4);
+
+    
+    // map.addDevice(device3);
+    // map.addDevice(device4);
     map.getTrackInfo();
+    
 
     Racer.Game.init();
-  })();
+
+    // alert(Cookies.get('device'));
+
+  });
 
 </script>
 
