@@ -1,5 +1,11 @@
+/**
+ * @desc Simple Racer Game built with paper.js
+ * @author Massimiliano Pesente
+ */
+
 var Racer = window.Racer || {};
 
+//Utils
 Racer.Utils = (function () {
 
   var _that = this;
@@ -47,6 +53,7 @@ Racer.Utils = (function () {
 })();
 
 
+//Main Class
 Racer.Game = (function () {
 
   var _track, _car;
@@ -56,9 +63,8 @@ Racer.Game = (function () {
 
   var _scoreUI, _hearts, _restartUI;
 
-  
   function initialize() {
-  
+
     paper.install(window);
     paper.setup('track_canvas');
 
@@ -66,11 +72,15 @@ Racer.Game = (function () {
 
     _track = new Racer.Track();
     _car = new Racer.Car(_track.getPath());
+
     _scoreUI = document.getElementsByClassName('points')[0];
     _scoreUI.innerHTML = _points;
 
     _bestScoreUI = document.getElementsByClassName('best-points')[0];
+
+
     _hearts = document.querySelectorAll("div.lifes li");
+
     _restartUI = document.querySelector('a.start');
     _restartUI.addEventListener("click", restartGame);
 
@@ -80,13 +90,18 @@ Racer.Game = (function () {
 
     addListener();
 
-    TweenMax.to("div.lifes", .6, { ease: Cubic.easeInOut, left: -20, delay: .5 });
-    TweenMax.to("div.score", .6, { ease: Cubic.easeInOut, left: -20, delay: .4 });
+    TweenMax.to("div.lifes", .6, {ease: Cubic.easeInOut, left: -20, delay: .5});
+    TweenMax.to("div.score", .6, {ease: Cubic.easeInOut, left: -20, delay: .4});
+    //TweenMax.to("div.best-score", .6, {ease:Cubic.easeInOut, right:-20, delay:.8});
+    //TweenMax.to("a.start", .6, {ease:Cubic.easeInOut, autoAlpha:1});
     _maxPoints = localStorage.getItem("bestScore") == null ? 0 : localStorage.getItem("bestScore");
+    console.log("Max points: ", _maxPoints);
+
     if (_maxPoints > 0) {
       _bestScoreUI.innerHTML = _maxPoints.toString();
-      TweenMax.to("div.best-score", .6, { ease: Cubic.easeInOut, right: -20, delay: .8 });
+      TweenMax.to("div.best-score", .6, {ease: Cubic.easeInOut, right: -20, delay: .8});
     }
+
   }
 
   function onCarCrashEnded() {
@@ -94,13 +109,13 @@ Racer.Game = (function () {
       addListener();
       _car.afterCrash(true);
     } else {
-      TweenMax.to("a.start", .3, { ease: Cubic.easeInOut, autoAlpha: 1 });
-      TweenMax.to("div.lifes", .4, { ease: Cubic.easeInOut, left: -200 });
+      TweenMax.to("a.start", .3, {ease: Cubic.easeInOut, autoAlpha: 1});
+      TweenMax.to("div.lifes", .4, {ease: Cubic.easeInOut, left: -200});
       _car.afterCrash(false);
 
       if (_points > _maxPoints) {
         if (_maxPoints == 0)
-          TweenMax.to("div.best-score", .6, { ease: Cubic.easeInOut, right: -20 });
+          TweenMax.to("div.best-score", .6, {ease: Cubic.easeInOut, right: -20});
         _maxPoints = _points;
         _bestScoreUI.innerHTML = _maxPoints.toString();
         localStorage.setItem("bestScore", _maxPoints);
@@ -117,13 +132,11 @@ Racer.Game = (function () {
     addListener();
 
 
-    TweenMax.to("a.start", .1, { ease: Cubic.easeInOut, autoAlpha: 0 });
-    TweenMax.to("div.lifes", .6, { ease: Cubic.easeInOut, left: -20 });
+    TweenMax.to("a.start", .1, {ease: Cubic.easeInOut, autoAlpha: 0});
+    TweenMax.to("div.lifes", .6, {ease: Cubic.easeInOut, left: -20});
   }
 
   function accelerate(e) {
-alert('akcelerace');
-    
     _car.accelerate();
     e.preventDefault();
   }
@@ -158,6 +171,7 @@ alert('akcelerace');
     _life--;
     updateHearts();
     removeListener();
+
   }
 
   function updateHearts() {
@@ -173,6 +187,26 @@ alert('akcelerace');
       initialize();
     },
 
+    /*
+    isOver: function(){
+      return _life==0;
+    },
+
+    disable:function(){
+      removeListener();
+    },
+
+    enable:function(){
+      addListener();
+    },*/
+    /*
+    accelerate: function(){
+      accelerate();
+    },
+
+    onBrake:function(){}
+    */
+
     restart: function () {
 
     }
@@ -180,6 +214,8 @@ alert('akcelerace');
   }
 })();
 
+
+//Track Class
 Racer.Track = function () {
   var _that = this;
   var _canvas, _context, _path;
@@ -191,11 +227,13 @@ Racer.Track = function () {
 
     var svg = document.getElementById('track');
     var layer = new Layer();
-
     var p = layer.importSVG(svg, function (path, svg) {
+
       path.strokeColor = '#ECBB62';
       path.strokeWidth = 12;
+
       _path = path.children['circuit'];
+
     });
 
     paper.view.draw();
@@ -208,6 +246,7 @@ Racer.Track = function () {
   initialize();
 }
 
+//Car Class
 Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
 
   var ACCELERATION = acceleration || 0.8;
@@ -245,9 +284,13 @@ Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
     _car = document.getElementsByClassName('image')[0];
     _layer = new Layer();
     _layer.activate();
+
+
     initPosition();
     requestAnimationFrame(render);
+
   }
+
 
   function accelerate() {
     _throttle = ACCELERATION;
@@ -268,17 +311,24 @@ Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
   }
 
   function render() {
+
+
     calculateSpeed();
     var trackOffset = _elapsed % _path.length;
     var trackPoint = _path.getPointAt(trackOffset);
     var trackTangent = _path.getTangentAt(trackOffset);
     var trackAngle = trackTangent.angle;
+
     _lastPoint = trackPoint;
     _velocity.angle = trackAngle;
+
     if (_in) {
+
+
       _elapsed += _velocity.length;
       if (_velocity.length > 0.1)
         renderCar(trackPoint);
+
     } else {
       var trackOffsetExit = _elapsedExit % _pathExit.length;
       var trackPointExit = _pathExit.getPointAt(trackOffsetExit);
@@ -290,6 +340,10 @@ Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
 
         var carCrashEndedEvent = new CustomEvent("CarCrashEnded");
         window.dispatchEvent(carCrashEndedEvent);
+        /*
+        if(!Racer.Game.isOver())
+            restartAfterCrash(trackPoint);
+        else Racer.Game.restart();*/
       }
     }
 
@@ -312,6 +366,10 @@ Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
     _position.y = parseFloat(_position.y.toFixed(20));
 
     updateCarPosition();
+
+    //Racer.Game.enable();
+
+
   }
 
   function updateCarPosition() {
@@ -357,11 +415,16 @@ Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
       var distance = intersection[0].point.getDistance(midpoint);
       maxVelocity = Math.sqrt(distance * SLIDING_FRICTION);
 
+      //console.log(maxVelocity, _velocity.length)
       if (maxVelocity > 0 && _velocity.length > maxVelocity) {
+
+        //Racer.Game.disable();
+
         _pathExit = Racer.Utils.drawLine(point, point.add(_velocity.multiply(50)), null, 0);
         _elapsedExit = 0;
         _rotationExit = ROTATION_ON_EXIT;
         _throttle = 0;
+
         _in = false;
 
         var carCrashedEvent = new CustomEvent("CarCrashed");
@@ -375,7 +438,7 @@ Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
     paper.view.draw();
 
     var score = Math.round(5 * _velocity.length) - 1;
-    var carRunggingEvent = new CustomEvent("CarRunning", { "detail": score });
+    var carRunggingEvent = new CustomEvent("CarRunning", {"detail": score});
     window.dispatchEvent(carRunggingEvent);
 
     _rotation = _velocity.angle;
@@ -402,6 +465,8 @@ Racer.Car = function (path, acceleration, friction, speed, sliding_friction) {
     resetPosition();
   }
 
+
   initialize();
+
 
 };
