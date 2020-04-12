@@ -41,8 +41,8 @@ var Map = (function () {
             .interpolate("cardinal-closed");
 
         svgContainer = d3.select("body").append("svg")
-            .attr("width", '100%')
-            .attr("height", '100%')
+            // .attr("width", '100%')
+            // .attr("height", '100%')
             // .attr("width", width)
             // .attr("height", height)
             .attr('style', 'border: 1px solid purple')
@@ -123,7 +123,8 @@ var Map = (function () {
             .attr("d", lineFunctionAproximateClosed(lineData))
             // .attr("d", lineBasic(lineData))
             .attr("stroke", "black")
-            .attr("stroke-width", 2)
+            .attr("stroke-width", 8)
+            .attr("id", 'circuit')
             .attr("fill", "none");
     }
 

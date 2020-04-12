@@ -226,6 +226,8 @@ Racer.Track = function () {
     _context = _canvas.getContext('2d');
 
     var svg = document.getElementById('track');
+console.log(svg.width);    
+
     var layer = new Layer();
     var p = layer.importSVG(svg, function (path, svg) {
 

@@ -66,13 +66,13 @@ Racer.Game = (function () {
 
     _track = new Racer.Track();
     _car = new Racer.Car(_track.getPath());
-    _scoreUI = document.getElementsByClassName('points')[0];
-    _scoreUI.innerHTML = _points;
+    // _scoreUI = document.getElementsByClassName('points')[0];
+    // _scoreUI.innerHTML = _points;
 
-    _bestScoreUI = document.getElementsByClassName('best-points')[0];
-    _hearts = document.querySelectorAll("div.lifes li");
-    _restartUI = document.querySelector('a.start');
-    _restartUI.addEventListener("click", restartGame);
+    // _bestScoreUI = document.getElementsByClassName('best-points')[0];
+    // _hearts = document.querySelectorAll("div.lifes li");
+    // _restartUI = document.querySelector('a.start');
+    // _restartUI.addEventListener("click", restartGame);
 
     window.addEventListener("CarCrashed", onCarCrashed);
     window.addEventListener("CarRunning", onCarRunning);
@@ -82,11 +82,11 @@ Racer.Game = (function () {
 
     TweenMax.to("div.lifes", .6, { ease: Cubic.easeInOut, left: -20, delay: .5 });
     TweenMax.to("div.score", .6, { ease: Cubic.easeInOut, left: -20, delay: .4 });
-    _maxPoints = localStorage.getItem("bestScore") == null ? 0 : localStorage.getItem("bestScore");
-    if (_maxPoints > 0) {
-      _bestScoreUI.innerHTML = _maxPoints.toString();
-      TweenMax.to("div.best-score", .6, { ease: Cubic.easeInOut, right: -20, delay: .8 });
-    }
+    // _maxPoints = localStorage.getItem("bestScore") == null ? 0 : localStorage.getItem("bestScore");
+    // if (_maxPoints > 0) {
+    //   _bestScoreUI.innerHTML = _maxPoints.toString();
+    //   TweenMax.to("div.best-score", .6, { ease: Cubic.easeInOut, right: -20, delay: .8 });
+    // }
   }
 
   function onCarCrashEnded() {
@@ -122,7 +122,7 @@ Racer.Game = (function () {
   }
 
   function accelerate(e) {
-alert('akcelerace');
+
     
     _car.accelerate();
     e.preventDefault();
@@ -150,8 +150,8 @@ alert('akcelerace');
   }
 
   function onCarRunning(e) {
-    _points += e.detail;
-    _scoreUI.innerHTML = _points;
+    // _points += e.detail;
+    // _scoreUI.innerHTML = _points;
   }
 
   function onCarCrashed(e) {
@@ -187,14 +187,17 @@ Racer.Track = function () {
   function initialize() {
 
     _canvas = document.getElementById('track_canvas');
+
     _context = _canvas.getContext('2d');
 
     var svg = document.getElementById('track');
+    console.log(svg.width);    
     var layer = new Layer();
 
     var p = layer.importSVG(svg, function (path, svg) {
       path.strokeColor = '#ECBB62';
       path.strokeWidth = 12;
+      _path = path;
       _path = path.children['circuit'];
     });
 

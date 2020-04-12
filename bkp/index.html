@@ -170,8 +170,7 @@
 
 <body>
 
-<svg version="1.1" id="track" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 900 420"
-     enable-background="new 0 0 900 420" xml:space="preserve">
+<svg  id="track">
     <path id="circuit" fill="none" stroke="#000000" stroke-width="7" d="
         M458.3,410.4c51.4,0.3,206.2,3.1,310.1-1.4c103.8-4.5,109.6-82.6,109.4-119.6c-0.2-37-24.8-117.4-105.2-114.7
         c-81.5,2.7-202-1.9-242.4-1.1c-40.5,0.8-138,1.5-188.5,2.5c-49,1-78.3,49.1-77.3,116.8c1.1,66.6,38.6,101.6,81.2,101.8
@@ -220,29 +219,7 @@
 
 
 <link href="css/bottom-bar.css" rel="stylesheet" type="text/css">
-<footer>
-</footer>
 
-
-<script src="js/underscore.min.js"></script>
-<script>
-  var shares = document.querySelectorAll("footer a.share");
-  _.each(shares, function ($s) {
-
-    $s.addEventListener("click", function (e) {
-      var $s = e.currentTarget;
-      var url = $s.href;
-      var width = 575;
-      var height = 400;
-      var left = (window.innerWidth - width) / 2;
-      var top = (window.innerHeight - height) / 2;
-      var opts = 'status=1,width=' + width + ',height=' + height + ',top=' + top + ',left=' + left;
-      window.open(url, 'share', opts);
-      e.preventDefault();
-    });
-
-  });
-</script>
 
 
 </body>
