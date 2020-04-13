@@ -23,9 +23,23 @@
        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
     </canvas>
   </div>
+
+  <button id="create">Create</button>
+  <button id="join">Join</button>
+  <br>
+  <div class="chat">
+    <input type="text" id="message-input">
+    <button id="send">Send</button>
+
+  </div>
+
+  <div id="history" style="width: 200px;height: 500px;border:1px solid purple;">
+  </div>
+
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+<script src="js/colyseus.js"></script>
 <script src="js/paper-full.min.js"></script>
 <script src="js/TweenMax.min.js"></script>
 <script src="js/racer.js"></script>
@@ -34,39 +48,84 @@
 <script src="/js/map.js?v=W"></script>
 <script src="/js/mapDevice.js?v=wd"></script>
 <script>
-  
-  window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
-    alert("Error occured: " + errorMsg+ ' line: '+lineNumber);//or any message
-    return false;
-  }
-  
+
+  // window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
+  //   alert("Error occured: " + errorMsg + ' line: ' + lineNumber);//or any message
+  //   return false;
+  // }
+
   $(document).ready(function () {
-    
+    $('.chat').hide();
+
+    var client = new Colyseus.Client('ws://eflyax.cz:2567');
+
+
+    function processConnection(room) {
+      $('.chat').show();
+
+      $('#send').on('click', function () {
+        var input = $('#message-input');
+        room.send(input.val());
+        input.val('');
+        input.focus();
+      });
+
+      room.onMessage((message) => {
+        console.log(message);
+      
+        $history = $('#history');
+        var text = $history.text();
+        text += message + "\n";
+        $history.html(text);
+      });
+    }
+
+    // client.join("my_room");
+
+    $('#create').on('click', function () {
+      client.create("my_room", { 'roomName': 'eflyax' }).then(room => {
+        processConnection(room);
+      }).catch(e => {
+
+        console.error("join error", e);
+
+      });
+    });
+
+    $('#join').on('click', function () {
+      client.join("my_room", { 'roomName': 'eflyax' }).then(room => {
+        processConnection(room);
+      }).catch(e => {
+        console.error("join error", e);
+      });
+    });
+
+    return;
     // Cookies.set('device', 'iPad');
 
     var w = window.innerWidth;
     var h = window.innerHeight;
-    
-    $('#track_canvas').css('height', h + 'px'); // not based on real track
+
+    $('#track_canvas').css('height', h + 'px');
     $('#track_canvas').css('width', w + 'px');
-    
+
     var map = new Map();
-    
+
     var device1 = new MapDevice('iPhone', 8.4, 15, 320, 452);
     var device2 = new MapDevice('iPad', 22, 29.4, 834, 1003);
-    
-    
-    
+
+
+
     // var device3 = new MapDevice('iPhone 10', 10, 19.6);
     // var device4 = new MapDevice('Android', 12, 19);
     map.addDevice(device1);
     map.addDevice(device2);
 
-    
+
     // map.addDevice(device3);
     // map.addDevice(device4);
     map.getTrackInfo();
-    
+
 
     Racer.Game.init();
 
