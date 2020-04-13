@@ -59,9 +59,10 @@
 
     var client = new Colyseus.Client('ws://eflyax.cz:2567');
 
-
     function processConnection(room) {
       $('.chat').show();
+      $('#create').attr("disabled", true);
+      $('#join').attr("disabled", true);
 
       $('#send').on('click', function () {
         var input = $('#message-input');
@@ -72,7 +73,7 @@
 
       room.onMessage((message) => {
         console.log(message);
-      
+
         $history = $('#history');
         var text = $history.text();
         text += message + "\n";

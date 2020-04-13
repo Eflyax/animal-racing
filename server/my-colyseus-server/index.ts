@@ -3,7 +3,6 @@ import express from "express";
 import cors from "cors";
 import { Server } from "colyseus";
 import { monitor } from "@colyseus/monitor";
-import { matchMaker } from "colyseus"
 import { MyRoom } from "./MyRoom";
 
 const port = Number(process.env.PORT || 2567);

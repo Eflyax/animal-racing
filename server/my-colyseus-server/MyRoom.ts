@@ -9,10 +9,8 @@ export class State extends Schema {
 
 export class MyRoom extends Room {
 
-
   onCreate(options: any) {
     console.log(options);
-    // this.setState(new State());
   }
 
   onJoin(client: Client, options: any) {
@@ -20,6 +18,9 @@ export class MyRoom extends Room {
   }
 
   onMessage(client: Client, message: any) {
+    if (!message) {
+      return;
+    }
     console.log('server message: ' + message);
     this.broadcast(message);
   }
