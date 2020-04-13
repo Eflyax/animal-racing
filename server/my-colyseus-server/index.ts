@@ -3,7 +3,9 @@ import express from "express";
 import cors from "cors";
 import { Server } from "colyseus";
 import { monitor } from "@colyseus/monitor";
+import { matchMaker } from "colyseus"
 import { MyRoom } from "./MyRoom";
+import { RoomWaiting } from "./RoomWaiting";
 
 const port = Number(process.env.PORT || 2567);
 const app = express()
@@ -16,9 +18,10 @@ const gameServer = new Server({
   server,
 });
 
-// register your room handlers
 gameServer.define('my_room', MyRoom);
+gameServer.define('room_waiting', RoomWaiting);
 
+matchMaker.createRoom("room_waiting", { /* options */ });
 
 /**
  * Register @colyseus/social routes
@@ -32,4 +35,4 @@ gameServer.define('my_room', MyRoom);
 app.use("/colyseus", monitor());
 
 gameServer.listen(port);
-console.log(`Listening on ws://localhost:${ port }`)
+console.log(`Listening on ws://localhost:${port}`)

@@ -14,7 +14,7 @@ export class MyRoom extends Room {
   }
 
   onJoin(client: Client, options: any) {
-    console.log('client connected');
+    console.log('client connected to game');
   }
 
   onMessage(client: Client, message: any) {
@@ -26,7 +26,7 @@ export class MyRoom extends Room {
   }
 
   onLeave(client: Client, consented: boolean) {
-    console.log('client disconnected');
+    console.log('client disconnected from game');
   }
 
   onDispose() {
