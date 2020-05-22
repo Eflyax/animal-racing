@@ -1,142 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Racer</title>
-  <link href="css/style.css?v=3" rel="stylesheet" type="text/css">
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>A racing game built with Paper.js</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-  <script src="js/colyseus.js"></script>
-  <script src="js/paper-full.min.js"></script>
-  <script src="js/TweenMax.min.js"></script>
-  <script src="js/racer.js"></script>
-
-  <script src="https://d3js.org/d3.v3.js"></script>
-  <script src="/js/map.js?v=W"></script>
-  <script src="/js/mapDevice.js?v=wd"></script>
-  <script src="/js/game.js?v=whjkd"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<title>VueJs playground</title>
 </head>
 
 <body>
-  <div id="offline" style="text-align:center;">
-    <p>
-      <img src="/images/serveroffline.png" width="50"><br>
-      Server is offline<br>
-      <a href="/">Try again</a>
-    </p>
-  </div>
-
-  <div id="welcome">
-    Welcome to Eflyax's racer
-    <button id="start">START</button>
-  </div>
-
-  <div id="join_or_create">
-    <button class="create">Create</button>
-    <button class="join">Join</button>
-  </div>
-
-  <div id="create">
-    <lable>Choose room code:</lable>
-    <input type="text" class="room-code">
-
-    <hr>
-    <button class="btn-create-room">Create room</button>
-  </div>
-
-  <div id="lobby">
-
-  </div>
-
-  <!-- <div id="track_svg"></div>
-  <div id="track_container">
-    <div id="track_car">
-      <div class="image" style="transform: translate3d(458.3px, 410.4px, 0px) rotate(0deg);"></div>
-    </div>
-    <canvas id="track_canvas" style="-webkit-user-drag: none; user-select: none;
-     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-    </canvas>
-  </div>  -->
-
+	<div id="app"></div>
 </body>
-
-<script>
-
-  // window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
-  //   alert("Error occured: " + errorMsg + ' line: ' + lineNumber);//or any message
-  //   return false;
-  // }
-
-  $(document).ready(function () {
-    var game = new Game();
-    game.init();
-  });
-
-  $(document).ready(function () {
-    // $('.chat').hide();
-
-    // var client = new Colyseus.Client('ws://eflyax.cz:2567');
-
-    // function processConnection(room) {
-    //   $('.chat').show();
-    //   $('.create').attr("disabled", true);
-    //   $('.join').attr("disabled", true);
-
-    //   $('#send').on('click', function () {
-    //     var input = $('#message-input');
-    //     room.send(input.val());
-    //     input.val('');
-    //     input.focus();
-    //   });
-
-    //   room.onMessage((message) => {
-    //     console.log(message);
-
-    //     $history = $('#history');
-    //     var text = $history.text();
-    //     text += message + "\n";
-    //     $history.html(text);
-    //   });
-    // }
-
-    return;
-    // Cookies.set('device', 'iPad');
-
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-
-    $('#track_canvas').css('height', h + 'px');
-    $('#track_canvas').css('width', w + 'px');
-
-    var map = new Map();
-
-    var device1 = new MapDevice('iPhone', 8.4, 15, 320, 452);
-    var device2 = new MapDevice('iPad', 22, 29.4, 834, 1003);
-
-
-
-    // var device3 = new MapDevice('iPhone 10', 10, 19.6);
-    // var device4 = new MapDevice('Android', 12, 19);
-    map.addDevice(device1);
-    map.addDevice(device2);
-
-
-    // map.addDevice(device3);
-    // map.addDevice(device4);
-    map.getTrackInfo();
-
-
-    Racer.Game.init();
-
-    // alert(Cookies.get('device'));
-
-  });
-
-</script>
 
 </html>
