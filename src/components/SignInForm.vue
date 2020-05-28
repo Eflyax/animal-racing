@@ -1,26 +1,7 @@
 <template>
   <div>
-    <form @submit="checkForm">
-      <input 
-        type="password"
-        ref="password" 
-        v-model="passwordData" 
-      />
-      <!-- v-model zapisuje hodnotu do "data.passwordData" -->
-      
-      <button 
-        class="btn btn-primary btn-lg btn-block" 
-        type="submit"
-      >
-        Přihlásit se
-      </button>
-      
-    <textarea>
-      {{passwordData}}
-    </textarea>
-    <!-- propisuje se z "data.passwordData" -->
+    <router-link to="/join-or-create">{{ $t("start")}}</router-link>
 
-    </form>
   </div>
 </template>
 

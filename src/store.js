@@ -1,8 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import authModule from "./modules/auth/AuthModule";
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -10,7 +8,6 @@ export default new Vuex.Store({
     numbers: ['test', { name: 'Name' }]
   },
   modules: {
-    authModule,
   },
   actions: {
     addNumber(context, number) { // this is called by component

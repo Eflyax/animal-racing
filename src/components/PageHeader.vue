@@ -1,10 +1,6 @@
 <template>
   <header>
-    <h1>Hlavička</h1>    
-
-      <router-link to="/">Domů</router-link>
-      <router-link to="/chart">Graf</router-link>
-      <router-link to="/sign-in">Přihlášení</router-link>
+    <h1>{{ $t("header") }}</h1>
   </header>
 </template>
 
