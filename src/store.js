@@ -5,25 +5,26 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    numbers: ['test', { name: 'Name' }]
+    myId: 6,
+    lobbyId: null,
+    players: [
+      {name: "Exapos", id: 1},
+      {name: "Eflyax", id: 6},
+      {name: "BoldaCZ", id: 2}
+    ]
   },
   modules: {
   },
   actions: {
-    addNumber(context, number) { // this is called by component
-      context.commit("ADD_NUMBER", number);
-    },
-    removeLastElement(context) { // this is called by component
-      context.commit("REMOVE_LAST_ELEMENT");
+    setLobbyId(context, id) { // this is called by component
+      context.commit("SET_LOBBY_ID", id);
     },
   },
   mutations: { // managing state
-    ADD_NUMBER(state, payload) {
-      state.numbers.push(payload);
+    SET_LOBBY_ID(state, payload) {
+      console.log(payload);
+      state.lobbyId = payload;
     },
-    REMOVE_LAST_ELEMENT(state, payload) {
-      state.numbers.pop();
-    }
   },
   getters: {
     getNumbers(state) {

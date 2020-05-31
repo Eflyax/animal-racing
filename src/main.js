@@ -8,7 +8,8 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import SignInForm from './components/SignInForm';
 import JoinOrCreate from './components/JoinOrCreate';
 import Join from './components/Join';
-
+import Create from './components/Create';
+import Lobby from './components/Lobby';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -21,7 +22,8 @@ const router = new VueRouter({
     { path: '/', component: SignInForm },
     { path: '/join-or-create', component: JoinOrCreate },
     { path: '/join', component: Join },
-    // { path: '/sign-in', component: SignInForm },
+    { path: '/create', component: Create },
+    { path: '/lobby', component: Lobby },
   ]
 });
 

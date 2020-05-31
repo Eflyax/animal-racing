@@ -6,7 +6,8 @@
 
       <b-form-group id="input-group-2" v-bind:label="$t('gameCodeToJoin')" label-for="input-2">
         <b-form-input
-          id="input-2"
+          ref="gameCodeToJoin"
+          id="gameCodeToJoin"
           v-model="form.gameCodeToJoin"
           required
         ></b-form-input>
@@ -14,7 +15,6 @@
 
       <b-button type="submit" variant="primary">{{ $t("connectToGame") }}</b-button>
       <b-button type="reset" variant="danger">{{ $t("cleanUp") }}</b-button>
-    
     </b-form>
   </div>
 </template>
@@ -35,9 +35,9 @@
         alert(JSON.stringify(this.form))
       },
       onReset(evt) {
-        evt.preventDefault()
-        // Reset our form values
-        this.form.gameCodeToJoin = ''
+        evt.preventDefault();
+        this.form.gameCodeToJoin = '';
+        this.$refs.gameCodeToJoin.$el.focus();
       }
     }
   }

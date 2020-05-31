@@ -1,9 +1,12 @@
 {
-    "header": "Český text",
+    "header": "AnimalRacing",
     "start": "Start",
     "join": "Připojit se",
     "create": "Vytvořit",
     "connectToGame": "Připojit se do hry",
     "cleanUp": "Vymazat",
-    "gameCodeToJoin": "Kód pro připojení"
+    "gameCodeToJoin": "Kód pro připojení",
+    "back": "Zpět",
+    "createGame": "Založit hru",
+    "startGame": "Spustit hru"
 }
