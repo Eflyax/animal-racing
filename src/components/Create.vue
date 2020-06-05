@@ -55,7 +55,7 @@
           this.$store.dispatch("setLobbyId", this.gameCode);   
           this.$socket.send(prepMessage(
             {
-              action:'CREATE_LOBBY', 
+              action:'CreateLobby', 
               gameCode: this.gameCode
             }));
         }
