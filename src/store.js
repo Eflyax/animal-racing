@@ -6,11 +6,12 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     myId: 6,
+    idLeader: 6,
     lobbyId: null,
     players: [
-      {name: "Exapos", id: 1},
-      {name: "Eflyax", id: 6},
-      {name: "BoldaCZ", id: 2}
+      { name: "Exapos", id: 1 },
+      { name: "Eflyax", id: 6 },
+      { name: "BoldaCZ", id: 2 }
     ]
   },
   modules: {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
   actions: {
     setLobbyId(context, id) { // this is called by component
       context.commit("SET_LOBBY_ID", id);
+    },
+    isLeader() { // this is called by component
+      return state.myId == state.idLeader;
     },
   },
   mutations: { // managing state
@@ -29,6 +33,9 @@ export default new Vuex.Store({
   getters: {
     getNumbers(state) {
       return state.numbers;
+    },
+    isLeader: state => {
+      return state.myId == state.idLeader;
     }
   }
 });

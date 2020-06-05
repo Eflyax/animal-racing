@@ -25,7 +25,6 @@ Game = (function () {
   var roomWaiting;
 
   function loadState(newState) {
-    console.log('Load: ' + newState);
     loadUiForState(newState);
 
     switch (newState) {

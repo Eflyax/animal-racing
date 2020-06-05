@@ -2,16 +2,16 @@
   <div>
     <router-link to="/join-or-create">{{ $t("back") }}</router-link>
 
-  <b-list-group horizontal="md">
-    <lobby-player 
-      v-for="player in this.$store.state.players"
-      :name="player.name"
-      :id="player.id"
-    ></lobby-player>
-  </b-list-group>
-
-    <b-form @submit="onSubmit">
-      <b-button type="submit" variant="primary">{{ $t("startGame") }}</b-button>
+    <b-list-group horizontal="md">
+      <lobby-player 
+        v-for="player in this.$store.state.players"
+        :name="player.name"
+        :id="player.id"
+      ></lobby-player>
+    </b-list-group>
+    
+    <b-form @submit="onSubmit" v-if="this.$store.getters.isLeader">
+      <b-button type="submit" variant="primary">{{ $t("startGame") }}</b-button>    
     </b-form>
 
     <b-button type="button" v-on:click="playerConnectedToLobby">Připoj Pýtýho</b-button>
@@ -19,20 +19,10 @@
 </template>
 
 <script>
-  // <ul id="players">    
-  //       <lobby-player 
-  //         v-for="player in this.$store.state.players"
-  //         :name="player.name"
-  //         :id="player.id"
-  //       ></lobby-player>
-  //   </ul>
 
 import lobbyPlayer from './lobbyPlayer';
 
  export default {
-  mounted(){
-    console.log(this.$store.state.players);
-  },
   components: {
     lobbyPlayer
   },

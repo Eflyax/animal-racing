@@ -20,7 +20,6 @@
 </template>
 
 <script>
-// v-bind:placeholder="$t('gameCodeToJoin')"
  export default {
     data() {
       return {

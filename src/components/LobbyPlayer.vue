@@ -17,7 +17,7 @@
  export default {
   props: ['name', 'id'],
    mounted(){
-     console.log(this.$store.state.myId);// <= vypíše "name"
+    //  console.log(this.$store.state.myId);// <= vypíše "name"
    },
   }
 </script>
