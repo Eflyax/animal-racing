@@ -27,7 +27,8 @@ import lobbyPlayer from './lobbyPlayer';
     lobbyPlayer
   },
   methods: {
-    onSubmit(e) {        
+    onSubmit(e) {
+      // this.$socket.send(prepMessage({topic:'handshake', data:'sdf487rgiuh7'}));
     },
     playerConnectedToLobby(){
       this.$store.state.players.push({name: 'Pýtý', id: 0});

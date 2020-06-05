@@ -1,9 +1,10 @@
 import Vue from "vue";
 import App from "./App";
 import store from "./store";
-import VueRouter from 'vue-router'
+import VueRouter from 'vue-router';
 import i18n from "./i18n.js";
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import VueNativeSock from 'vue-native-websocket';
 
 import SignInForm from './components/SignInForm';
 import JoinOrCreate from './components/JoinOrCreate';
@@ -16,6 +17,12 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
+
+Vue.use(VueNativeSock, 'ws://localhost:9000', { store: store });
+
+window.prepMessage = function (data) {
+  return JSON.stringify(data);
+}
 
 const router = new VueRouter({
   routes: [

@@ -14,6 +14,8 @@
       >
       </b-form-input>
 
+      <div v-if="error">Zde bude chyba</div>
+
       <b-button type="submit" variant="primary">{{ $t("createGame") }}</b-button>
     </b-form>
   </div>
@@ -27,17 +29,37 @@
         form: {},
         gameCode: '',
         isFormValid: false,
+        error: null,
       }
+    },
+    mounted(){
+      var that = this;
+      this.$socket.onmessage = function(m){
+        var m = JSON.parse(m.data);
+        if(m.action != 'CREATE_LOBBY'){
+          return;
+        }
+        if(m.error){
+          that.error = m.error;
+        }else{
+          that.error = null;
+          that.$router.push("/lobby?id=" + this.gameCode);
+        }
+      };
     },
     methods: {
       onSubmit(evt) {
         if(!this.isFormValid){
           evt.preventDefault();
         }else{
-          this.$store.dispatch("setLobbyId", this.gameCode);
-          this.$router.push("/lobby?id=" + this.gameCode);
+          this.$store.dispatch("setLobbyId", this.gameCode);   
+          this.$socket.send(prepMessage(
+            {
+              action:'CREATE_LOBBY', 
+              gameCode: this.gameCode
+            }));
         }
-      },
+      }
     },
     computed: {
       stateGameCode(){
