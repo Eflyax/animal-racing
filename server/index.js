@@ -5,51 +5,30 @@ const RoomManager = require("./src/RoomManager");
 const Player = require("./src/Player");
 
 ROOMS = [];
-
-ROOMS.push(new Room('pes'));
-ROOMS.push(new Room('kocka'));
-// console.log(ROOMS);
-var roomManager = new RoomManager();
-var founded = roomManager.findOneBy('code', 'kokot');
-console.log(founded);
-return 0;
-
-
 PLAYERS = [];
 
+var roomManager = new RoomManager();
 console.log('Server started');
 
 wss.on('connection', (ws, req) => {
   console.log('Client connected');
-  // var id = ws._socket._handle.fd;
   var id = req.headers['sec-websocket-key'];
 
   PLAYERS[id] = (new Player('Eflyax', id, ws));
-
-  console.log(PLAYERS);
 
   ws.on('message', message => {
     var message = JSON.parse(message);
 
     switch (message.action) {
       case 'CREATE_LOBBY':
-
-        ROOMS.push(new Room('pes'));
-        ROOMS.push(new Room('chleba'));
-
-        console.log(ROOMS);
-
-        var founded = RoomManager.findOneBy('code', 'pes');
-
-        console.log(founded);
-
-        ws.send(JSON.stringify({ action: 'CREATE_LOBBY', 'error': null }));
-
-        // if (message.gameCode == '1111') { // obsazeno
-        //   ws.send(JSON.stringify({ action: 'CREATE_LOBBY', 'error': 'roomAlreadyExists' }));
-        // } else { // volno
-        //   ws.send(JSON.stringify({ action: 'CREATE_LOBBY', 'error': null }));
-        // }
+        var existingRoom = roomManager.findOneBy('code', message.gameCode);
+        var error = existingRoom ? 'roomAlreadyExists' : null;
+        ws.send(JSON.stringify({ action: 'CREATE_LOBBY', 'error': error }));
+        if (!error) { // room does not exist
+          var newRoom = new Room(message.gameCode);
+          newRoom.setIdLeader(id);
+          ROOMS[id] = newRoom;
+        }
         break;
       default:
         console.log('neznámá akce');
@@ -59,9 +38,9 @@ wss.on('connection', (ws, req) => {
     }
   }); // end of "message"
 
-  ws.on('close', function(foo, bar) {
+  ws.on('close', function () {
     delete PLAYERS[id];
-    console.log(PLAYERS);
+    delete ROOMS[id]; // todo - odpojit ostatní hráče z roomky
   });
 
 })
